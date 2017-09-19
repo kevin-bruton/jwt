@@ -1,0 +1,19 @@
+{
+  "name": "coding-with-kev",
+  "version": "1.0.0",
+  "description": "Coding with Kev",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kevin-bruton/coding-with-kev.git"
+  },
+  "author": "Kevin Bruton",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/kevin-bruton/coding-with-kev/issues"
+  },
+  "homepage": "https://github.com/kevin-bruton/coding-with-kev#readme"
+}
