@@ -1,12 +1,12 @@
 {
-  "name": "coding-with-kev-back",
+  "name": "jwt",
   "version": "1.0.0",
   "description": "Coding with Kev",
   "author": "Kevin Bruton",
   "license": "GPL-3.0",
   "main": "index.js",
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "nodemon ./server"
   },
   "repository": {
     "type": "git",
@@ -22,7 +22,8 @@
     "debug": "~2.6.3",
     "express": "^4.15.4",
     "jsonwebtoken": "^8.0.1",
-    "mongoose": "^4.11.12",
+    "mongodb": "^2.2.31",
+    "mongoose": "4.10.0",
     "morgan": "^1.8.2",
     "pug": "~2.0.0-beta11",
     "serve-favicon": "~2.4.2"

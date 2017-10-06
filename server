@@ -4,16 +4,30 @@
  * Module dependencies.
  */
 
-var app = require('../app');
+var app = require('./app/app');
 var debug = require('debug')('coding-with-kev:server');
 var http = require('http');
+
+// Add for the JWT tutorial
+var morgan = require('morgan');
+var mongoose = require('mongoose');
+var config = require('./back/config');
 
 /**
  * Get port from environment and store in Express.
  */
-
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
+
+/**
+ * Use morgan logging
+ */
+app.use(morgan('dev'));
+
+/**
+ * Mongoose
+ */
+mongoose.connect(config.database);
 
 /**
  * Create HTTP server.
@@ -87,4 +101,5 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
+  console.log('Listening on port', port);
 }
