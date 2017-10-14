@@ -6,7 +6,8 @@
   "license": "GPL-3.0",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./server"
+    "start": "nodemon ./server",
+    "db": "mongod --dbpath=./mongodata"
   },
   "repository": {
     "type": "git",

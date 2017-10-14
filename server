@@ -4,13 +4,13 @@
  * Module dependencies.
  */
 
-var app = require('./app/app');
+var app = require('./back/app');
 var debug = require('debug')('coding-with-kev:server');
 var http = require('http');
 
 // Add for the JWT tutorial
 var morgan = require('morgan');
-var mongoose = require('mongoose');
+// var mongoose = require('mongoose');
 var config = require('./back/config');
 
 /**
@@ -27,7 +27,7 @@ app.use(morgan('dev'));
 /**
  * Mongoose
  */
-mongoose.connect(config.database);
+// mongoose.connect(config.database);
 
 /**
  * Create HTTP server.

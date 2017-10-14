@@ -5,9 +5,8 @@ const express = require('express');
 const apiRoutes = express.Router();
 const app = express();
 const jwt = require('jsonwebtoken');
-const User   = require('../back/models/user'); // get our mongoose model
-const config = require('../back/config');
-app.set('superSecret', config.secret);
+const config = require('../config');
+const apiUsersRoutes = require('./api_users');
 
 // route middleware to verify a token
 apiRoutes.use(function(req, res, next) {
@@ -19,12 +18,12 @@ apiRoutes.use(function(req, res, next) {
     if (token) {
   
       // verifies secret and checks exp
-      jwt.verify(token, app.get('superSecret'), function(err, decoded) {      
+      jwt.verify(token, config.secret, function(err, token) {      
         if (err) {
           return res.json({ success: false, message: 'Failed to authenticate token', error: err });    
         } else {
           // if everything is good, save to request for use in other routes
-          req.decoded = decoded;    
+          req.token = token;    
           next();
         }
       });
@@ -46,30 +45,6 @@ apiRoutes.get('/', function(req, res) {
   res.json({ message: 'Authenticated: Welcome to the coolest API on earth!' });
 });
 
-// route to return all users (GET http://localhost:8080/api/users)
-apiRoutes.get('/users', function(req, res) {
-  User.find({}, function(err, users) {
-    res.json(users);
-  });
-});
-
-apiRoutes.post('/users/create', function(req, res) {
-  // create a sample user
-  var user = new User({ 
-    firstname: req.body.firstname,
-    surname: req.body.surname,
-    username: req.body.username,
-    password: req.body.password,
-    admin: true 
-  });
-
-  // save the sample user
-  user.save(function(err) {
-    if (err) throw err;
-
-    console.log('User saved successfully');
-    res.json({ success: true, message: 'New user saved' });
-  });
-});
+apiRoutes.use('/users', apiUsersRoutes);
 
 module.exports = apiRoutes;

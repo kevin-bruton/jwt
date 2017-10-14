@@ -6,10 +6,9 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
 // Routes
-const frontRoute = require('../routes/front');
-const usersRoute = require('../routes/users');
-const apiRoute = require('../routes/api');
-const authRoute = require('../routes/auth');
+const frontRoute = require('./routes/front');
+const apiRoute = require('./routes/api');
+const authRoute = require('./routes/auth');
 
 const app = express();
 
@@ -28,7 +27,6 @@ app.use(cookieParser());
 // apply the routes to our application with the relevant prefixes
 app.use('/', frontRoute);
 app.use('/api', apiRoute);
-app.use('/users', usersRoute);
 app.use('/auth', authRoute);
 
 // catch 404 and forward to error handler
