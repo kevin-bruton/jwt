@@ -1,4 +1,4 @@
 module.exports = {
-  'secret': 'beryllium',
+  'secret': 'secret',
   'database': 'mongodb://localhost:27017/testdb'
 };
