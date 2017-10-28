@@ -4,39 +4,32 @@
 const express = require('express');
 const apiRoutes = express.Router();
 const app = express();
-const jwt = require('jsonwebtoken');
-const config = require('../config');
+const verifyJwt = require('./jwt-auth').verifyToken;
 const apiUsersRoutes = require('./api_users');
 
 // route middleware to verify a token
-apiRoutes.use(function(req, res, next) {
+apiRoutes.use(async (req, res, next) => {
   
     // check header or url parameters or post parameters for token
-    const token = req.body.token || req.query.token || req.headers['x-access-token'];
+    // const token = req.headers['x-access-token'];
+    const authHeader = req.headers['authorization'];
+    if (!authHeader) {
+      return res.status(403).send({ success: false, message: 'No authorization credentials provided' });
+    }
+    
+    const token = authHeader.substring(authHeader.indexOf(' ') + 1);
+    if (!token) {
+      return res.status(403).send({ success: false, message: 'No token provided'});
+    }
   
     // decode token
-    if (token) {
-  
-      // verifies secret and checks exp
-      jwt.verify(token, config.secret, function(err, token) {      
-        if (err) {
-          return res.json({ success: false, message: 'Failed to authenticate token', error: err });    
-        } else {
-          // if everything is good, save to request for use in other routes
-          req.token = token;    
-          next();
-        }
-      });
-  
-    } else {
-  
-      // if there is no token
-      // return an error
-      return res.status(403).send({ 
-          success: false, 
-          message: 'No token provided.' 
-      });
-  
+    try {
+      const decodedToken = await verifyJwt(token);
+      // if everything is good, save to request for use in other routes
+      req.token = decodedToken;    
+      next();
+    } catch (err) {
+      return res.json(err);
     }
   });
   

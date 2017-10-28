@@ -53,18 +53,22 @@ function getUsers2 () {
 
 function getUsers(username = 'undefined') {
   return new Promise (async (resolve, reject) => {
-    const db = await open();
-    const searchObj = (username === 'undefined') ? {} : { username: username};
-    db.collection('users').find(searchObj).toArray((err, docs) => {
-      if (err) {
+    try {
+      const db = await open();
+      const searchObj = (username === 'undefined') ? {} : { username: username};
+      db.collection('users').find(searchObj).toArray((err, docs) => {
+        if (err) {
+          close(db);
+          reject(err);
+        }
+        console.log('Found this:');
+        console.log(docs);
         close(db);
-        reject(err);
-      }
-      console.log('Found this:');
-      console.log(docs);
-      close(db);
-      resolve(docs);
-    })
+        resolve(docs);
+      });
+    } catch (err) {
+      reject(new Error(err));
+    }
   })
 }
 

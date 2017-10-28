@@ -3,12 +3,20 @@
   <head>
     <meta charset="utf-8">
     <title>coding-with-kev-front</title>
+    <script src="./login.js"></script>
   </head>
-  <body>
+  <body onload="setLoginStatus()">
     <div id="app"></div>
     <h1>Coding with Kev</h1>
-    G'day mate!
-    
-    <!-- built files will be auto injected -->
+    <h2>G'day mate!</h2>
+    <p><label>Login status: </label><span id="loginstatus">Not logged in</span></p>
+    <table>
+      <tr><td><label>Username: </label></td><td><input type="text" name="username"/></td></tr>
+      <tr><td><label>Password: </label></td><td><input type="password" name="password"/></td></tr>
+      <tr><td><button onclick="login()">Submit</button></td></tr>
+    </table>
+    <button onclick="getUsers()">Get users</button>
+    <pre id="users"></pre>
+    <button onclick="logout()">Logout</button>
   </body>
 </html>
