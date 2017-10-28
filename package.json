@@ -4,7 +4,7 @@
   "description": "Coding with Kev",
   "author": "Kevin Bruton",
   "license": "GPL-3.0",
-  "main": "index.js",
+  "main": "server",
   "scripts": {
     "start": "nodemon ./server",
     "db": "mongod --dbpath=./mongodata"
