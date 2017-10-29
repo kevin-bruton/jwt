@@ -27,7 +27,7 @@ function getToken (username, password) {
         reject(`Problem signing token: ${err}`);
       }
     } catch (err) {
-      reject('There was a problem accessing the DB');
+      reject(`There was a problem accessing the DB: ${err}`);
     }
   })
 }
