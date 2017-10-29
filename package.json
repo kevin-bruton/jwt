@@ -9,6 +9,9 @@
     "start": "node ./server",
     "db": "mongod --dbpath=./mongodata"
   },
+  "engines": {
+    "node": "7.6.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kevin-bruton/coding-with-kev.git"
