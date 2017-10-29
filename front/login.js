@@ -11,8 +11,8 @@ async function login () {
 }
 
 function setLoginStatus () {
-  document.getElementById('loginstatus').innerHTML = sessionStorage.token === 'false'
-    ? 'Not logged in' : 'Logged in';
+  document.getElementById('loginstatus').innerHTML = (sessionStorage.token)
+    ?  'Logged in' : 'Not logged in';
 }
 
 async function getUsers () {
