@@ -2,7 +2,7 @@ async function login () {
   const username = document.querySelector('[name="username"]').value;
   const password = document.querySelector('[name="password"]').value;
   const data =`Username: ${username}; Password: ${password}`;
-  const result = await xhr.post('http://localhost:3000/auth', `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`);
+  const result = await xhr.post('auth', `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`);
   // sessionStorage.token = result.token;
   // sessionStorage.token && (document.getElementById('loginstatus').innerHTML = 'Logged in');
 
@@ -18,7 +18,7 @@ function setLoginStatus () {
 }
 
 async function getUsers () {
-  const users = await xhr.get('http://localhost:3000/api/users');
+  const users = await xhr.get('api/users');
   document.getElementById('users').innerHTML = JSON.stringify(users);
 }
 
