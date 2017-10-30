@@ -2,17 +2,19 @@ async function login () {
   const username = document.querySelector('[name="username"]').value;
   const password = document.querySelector('[name="password"]').value;
   const data =`Username: ${username}; Password: ${password}`;
-  console.log(data);
   const result = await xhr.post('http://localhost:3000/auth', `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`);
-  sessionStorage.token = result.token;
-  sessionStorage.token && (document.getElementById('loginstatus').innerHTML = 'Logged in');
-  document.cookie = 'token=' + result.token;
-  console.log(result);
+  // sessionStorage.token = result.token;
+  // sessionStorage.token && (document.getElementById('loginstatus').innerHTML = 'Logged in');
+
+  result.token && (document.cookie = 'token=' + result.token);
+  getCookie('token') && (document.getElementById('loginstatus').innerHTML = 'Logged in');
+  console.log('Cookie after login', getCookie('token'));
 }
 
 function setLoginStatus () {
-  document.getElementById('loginstatus').innerHTML = (sessionStorage.token)
+  document.getElementById('loginstatus').innerHTML = getCookie('token')
     ?  'Logged in' : 'Not logged in';
+  console.log('Cookie in setLoginStatus', getCookie('token'));
 }
 
 async function getUsers () {
@@ -21,7 +23,8 @@ async function getUsers () {
 }
 
 function logout () {
-  sessionStorage.token = false;
+  // sessionStorage.token = false;
+  deleteCookie('token');
   document.getElementById('loginstatus').innerHTML = 'Not logged in';
 }
 
@@ -32,7 +35,7 @@ const xhr = {
       let xhr = new XMLHttpRequest();
   
       xhr.open('GET', url);
-      xhr.setRequestHeader("x-access-token", sessionStorage.token);
+      xhr.setRequestHeader("Authorization", 'Bearer ' + getCookie('token'));
       xhr.send();
       xhr.onreadystatechange = () => {
         if (xhr.readyState == XMLHttpRequest.DONE && (xhr.status >= 200 && xhr.status < 400)) {
@@ -40,7 +43,7 @@ const xhr = {
         } else if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === HTTP_UNAUTH) {
             resolve({ error: `You're not authorized` });
         } else if (xhr.readyState === XMLHttpRequest.DONE) {
-            resolve({ error: 'Unknown http state: ' + xhr.status });
+            resolve({ error: 'Http state: ' + xhr.status });
         }
       };
     });
@@ -52,7 +55,7 @@ const xhr = {
           response;
   
       xhr.open('POST', url);
-      xhr.setRequestHeader("x-access-token", sessionStorage.token);
+      xhr.setRequestHeader("Authorization", 'Bearer ' + getCookie('token'));
       xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       xhr.send(data);
       xhr.onreadystatechange = () => {
@@ -69,3 +72,33 @@ const xhr = {
   } 
 };
 
+function getCookie(cname) {
+  var name = cname + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
+  for(var i = 0; i <ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+      }
+  }
+  return "";
+}
+
+function setCookie(cname, cvalue, exdays) {
+  if (exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  } else {
+    document.cookie = cname + "=" + cvalue + ";path=/";
+  }
+}
+
+function deleteCookie (name) {
+  document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
