@@ -23,7 +23,11 @@ async function getUsers () {
 }
 
 async function createUser() {
+<<<<<<< HEAD
   const result = await xhr.post('api/users/create', 'username=ben.christie&password=ben&admin=false');
+=======
+  const result = await xhr.post('api/users/create', {username: 'ben.christie',password: 'ben',admin:false});
+>>>>>>> 25c8b8e09097d919c9e59eed0c3daef084ec0b16
   document.getElementById('users').innerHTML = JSON.stringify(result);
 }
 
