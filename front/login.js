@@ -22,6 +22,11 @@ async function getUsers () {
   document.getElementById('users').innerHTML = JSON.stringify(users);
 }
 
+async function createUser() {
+  const result = await xhr.post('api/users/create', {username: 'ben.christie',password: 'ben',admin:false});
+  document.getElementById('users').innerHTML = JSON.stringify(result);
+}
+
 function logout () {
   // sessionStorage.token = false;
   deleteCookie('token');
