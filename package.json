@@ -6,7 +6,7 @@
   "license": "GPL-3.0",
   "main": "server",
   "scripts": {
-    "start": "node ./server",
+    "start": "nodemon ./server",
     "db": "mongod --dbpath=./mongodata"
   },
   "engines": {
@@ -22,7 +22,7 @@
   "homepage": "https://github.com/kevin-bruton/coding-with-kev#readme",
   "dependencies": {
     "body-parser": "^1.17.2",
-    "cookie-parser": "~1.4.3",
+    "cookie-parser": "^1.4.3",
     "debug": "~2.6.3",
     "express": "^4.15.4",
     "jsonwebtoken": "^8.0.1",

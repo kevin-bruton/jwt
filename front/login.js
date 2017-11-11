@@ -1,20 +1,19 @@
+const token = 'token';
+
 async function login () {
   const username = document.querySelector('[name="username"]').value;
   const password = document.querySelector('[name="password"]').value;
   const data =`Username: ${username}; Password: ${password}`;
   const result = await xhr.post('auth', `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`);
-  // sessionStorage.token = result.token;
-  // sessionStorage.token && (document.getElementById('loginstatus').innerHTML = 'Logged in');
-
-  result.token && (document.cookie = 'token=' + result.token);
-  getCookie('token') && (document.getElementById('loginstatus').innerHTML = 'Logged in');
-  console.log('Cookie after login', getCookie('token'));
+  result.token && (sessionStorage.setItem(token,result.token));
+  setLoginStatus();
+  // console.log('Cookie after login', getCookie('token'));
 }
 
 function setLoginStatus () {
-  document.getElementById('loginstatus').innerHTML = getCookie('token')
+  document.getElementById('loginstatus').innerHTML = sessionStorage.getItem(token)
     ?  'Logged in' : 'Not logged in';
-  console.log('Cookie in setLoginStatus', getCookie('token'));
+  console.log('token in setLoginStatus', sessionStorage.getItem(token));
 }
 
 async function getUsers () {
@@ -28,8 +27,8 @@ async function createUser() {
 }
 
 function logout () {
-  // sessionStorage.token = false;
-  deleteCookie('token');
+  sessionStorage.removeItem(token);
+  // deleteCookie('token');
   document.getElementById('loginstatus').innerHTML = 'Not logged in';
 }
 
@@ -40,7 +39,7 @@ const xhr = {
       let xhr = new XMLHttpRequest();
   
       xhr.open('GET', url);
-      xhr.setRequestHeader("Authorization", 'Bearer ' + getCookie('token'));
+      xhr.setRequestHeader("Authorization", 'Bearer ' + sessionStorage.getItem('token'));
       xhr.send();
       xhr.onreadystatechange = () => {
         if (xhr.readyState == XMLHttpRequest.DONE && (xhr.status >= 200 && xhr.status < 400)) {
@@ -60,7 +59,7 @@ const xhr = {
           response;
   
       xhr.open('POST', url);
-      xhr.setRequestHeader("Authorization", 'Bearer ' + getCookie('token'));
+      xhr.setRequestHeader("Authorization", 'Bearer ' + sessionStorage.getItem('token'));
       xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       xhr.send(data);
       xhr.onreadystatechange = () => {
@@ -98,7 +97,7 @@ function setCookie(cname, cvalue, exdays) {
     var d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
     var expires = "expires="+ d.toUTCString();
-    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/;httpOnly=1";
   } else {
     document.cookie = cname + "=" + cvalue + ";path=/";
   }
