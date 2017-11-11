@@ -1,6 +1,10 @@
 # A project that uses JWT
 
 This is a new project in nodejs which I'll be updating from time to time.
+The JWT is stored in sessionStorage. This means that in a real, production app, we would need
+to take care to protect ourselves against XSS.
+CSRF (more complex) isn't an issue as sessionStorage/localStorage only works within the same
+domain/subdomain.
 
 ## Routes
 
